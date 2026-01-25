@@ -6,8 +6,15 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		FF9CE3C92F26706E00F186CD /* Justfile in Resources */ = {isa = PBXBuildFile; fileRef = FF9CE3C82F26706E00F186CD /* Justfile */; };
+		FF9CE3CB2F26707D00F186CD /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = FF9CE3CA2F26707D00F186CD /* README.md */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		FF9CE3BA2F266EA600F186CD /* TogglTrackBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TogglTrackBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FF9CE3C82F26706E00F186CD /* Justfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Justfile; sourceTree = "<group>"; };
+		FF9CE3CA2F26707D00F186CD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -34,6 +41,8 @@
 			children = (
 				FF9CE3BC2F266EA600F186CD /* TogglTrackBar */,
 				FF9CE3BB2F266EA600F186CD /* Products */,
+				FF9CE3C82F26706E00F186CD /* Justfile */,
+				FF9CE3CA2F26707D00F186CD /* README.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -109,6 +118,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF9CE3CB2F26707D00F186CD /* README.md in Resources */,
+				FF9CE3C92F26706E00F186CD /* Justfile in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

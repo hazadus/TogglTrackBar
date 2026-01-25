@@ -1,0 +1,19 @@
+# Xcode user data
+xcuserdata/
+*.xcuserstate
+
+# macOS
+.DS_Store
+
+# Auto-generated at build time
+MyTrayApp/Generated/BuildInfo.generated.swift
+
+# Build
+build/
+DerivedData/
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+MyTrayApp.xcodeproj/xcshareddata/xcschemes/MyTrayApp.xcscheme

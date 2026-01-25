@@ -1,0 +1,21 @@
+included:
+  - MyTrayApp
+
+disabled_rules:
+  - line_length          # swift-format уже контролирует
+  - trailing_whitespace
+  - indentation_width
+  - todo                  # учебный проект, TODO нужны
+
+opt_in_rules:
+  - empty_count
+  - first_where
+  - sorted_imports
+
+force_cast: warning
+force_try: warning
+
+identifier_name:
+  excluded:
+    - id
+    - ui
