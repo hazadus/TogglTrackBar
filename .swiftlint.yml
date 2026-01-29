@@ -1,5 +1,5 @@
 included:
-  - MyTrayApp
+  - TogglTrackBar
 
 disabled_rules:
   - line_length          # swift-format уже контролирует
