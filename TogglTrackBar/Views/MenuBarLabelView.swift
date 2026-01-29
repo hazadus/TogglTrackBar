@@ -4,7 +4,7 @@ import SwiftUI
 struct MenuBarLabelView: View {
     var body: some View {
         Group {
-            Image(systemName: "timer" )
+            Image(systemName: "timer")
         }
     }
 }
