@@ -31,7 +31,9 @@ struct AboutView: View {
                     Text("О проекте")
                         .font(.caption)
                         .foregroundStyle(.secondary)
-                    Link("GitHub", destination: URL(string: "https://github.com/hazadus/TogglTrackBar")!)
+                    Link(
+                        "GitHub",
+                        destination: URL(string: "https://github.com/hazadus/TogglTrackBar")!)
                 }
                 GridRow {
                     Text("Автор")
