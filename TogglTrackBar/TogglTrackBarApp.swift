@@ -13,5 +13,10 @@ struct TogglTrackBarApp: App {
             MenuBarLabelView()
         }
         .menuBarExtraStyle(.menu)
+
+        Window("О программе", id: "about") {
+            AboutView()
+        }
+        .windowResizability(.contentSize)
     }
 }
