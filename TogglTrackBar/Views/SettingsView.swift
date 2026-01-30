@@ -49,13 +49,21 @@ struct SettingsView: View {
             } header: {
                 Text("Цели")
             } footer: {
-                Text(
-                    "Укажите количество часов, которые вы планируете работать в день и в неделю, для расчета процента выполнения."
-                )
-                .font(.footnote)
-                .foregroundStyle(.secondary)
+                VStack {
+                    Text(
+                        "Укажите количество часов, которые вы планируете работать в день и в неделю, для расчета процента выполнения."
+                    )
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity)
+
+                    Spacer()
+                    Divider()
+                    Spacer()
+
+                    Text("Для применения настроек, закройте это окно и перезапустите приложение.")
+                }
                 .multilineTextAlignment(.center)
-                .frame(maxWidth: .infinity)
             }
         }
         .formStyle(.grouped)
