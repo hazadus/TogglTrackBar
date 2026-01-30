@@ -57,6 +57,7 @@ just              # Список всех команд
 just format       # Форматирование кода
 just lint         # Проверка линтером
 just lint-fix     # Автоисправление замечаний линтера
+just intall-hooks # Установить pre-commit git hook для проверки кода
 ```
 
 Конфигурация линтера: `.swiftlint.yml`, форматтера: `.swift-format`.

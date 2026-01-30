@@ -32,3 +32,10 @@ lint-fix:
 # Строгая проверка для CI
 lint-check:
     {{swiftlint}} lint --strict --config .swiftlint.yml {{swift_files_paths}}
+
+# Установить pre-commit hook
+install-hooks:
+    mkdir -p .git/hooks
+    # NB: путь ../../Scripts/pre-commit относительно .git/hooks/
+    ln -s ../../Scripts/pre-commit .git/hooks/pre-commi
+    chmod +x ./Scripts/pre-commit
