@@ -5,6 +5,11 @@ struct UtilitySectionView: View {
     @Environment(\.openWindow) private var openWindow
 
     var body: some View {
+        SettingsLink {
+            Text("Настройки")
+        }
+        .keyboardShortcut(",")  // Cmd+,
+
         Button("О программе") {
             // Активируем приложение, чтобы окно появилось на переднем плане
             NSApp.activate(ignoringOtherApps: true)

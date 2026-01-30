@@ -14,6 +14,10 @@ struct TogglTrackBarApp: App {
         }
         .menuBarExtraStyle(.menu)
 
+        Settings {
+            SettingsView()
+        }
+
         Window("О программе", id: "about") {
             AboutView()
         }
