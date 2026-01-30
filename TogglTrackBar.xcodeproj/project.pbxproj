@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FF91FD702F2C7156002AA737 /* CLAUDE.md in Resources */ = {isa = PBXBuildFile; fileRef = FF91FD6F2F2C7156002AA737 /* CLAUDE.md */; };
 		FF9CE3C92F26706E00F186CD /* Justfile in Resources */ = {isa = PBXBuildFile; fileRef = FF9CE3C82F26706E00F186CD /* Justfile */; };
 		FF9CE3CB2F26707D00F186CD /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = FF9CE3CA2F26707D00F186CD /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FF91FD6F2F2C7156002AA737 /* CLAUDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CLAUDE.md; sourceTree = "<group>"; };
 		FF9CE3BA2F266EA600F186CD /* TogglTrackBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TogglTrackBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF9CE3C82F26706E00F186CD /* Justfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Justfile; sourceTree = "<group>"; };
 		FF9CE3CA2F26707D00F186CD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -43,6 +45,7 @@
 				FF9CE3BB2F266EA600F186CD /* Products */,
 				FF9CE3C82F26706E00F186CD /* Justfile */,
 				FF9CE3CA2F26707D00F186CD /* README.md */,
+				FF91FD6F2F2C7156002AA737 /* CLAUDE.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -119,6 +122,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FF9CE3CB2F26707D00F186CD /* README.md in Resources */,
+				FF91FD702F2C7156002AA737 /* CLAUDE.md in Resources */,
 				FF9CE3C92F26706E00F186CD /* Justfile in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
