@@ -43,3 +43,10 @@ struct TogglTimeEntry: Codable, Identifiable {
         Formatters.isoParser.date(from: start)
     }
 }
+
+/// Используется для выборки уникальных записей времени по комбинации идентификатора
+/// проекта и описания.
+struct UniqueTimeEntryKey: Hashable {
+    let description: String?
+    let projectId: Int?
+}
