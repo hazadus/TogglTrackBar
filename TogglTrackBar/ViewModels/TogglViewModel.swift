@@ -1,3 +1,4 @@
+import AppKit
 import Combine
 import Foundation
 import os
@@ -59,6 +60,24 @@ final class TogglViewModel: ObservableObject {
                 self?.rateLimit = newValue
             }
             // сохраняем подписку в Set, чтобы она жила пока жив ViewModel
+            .store(in: &cancellables)
+
+        // Обновляем расчеты при смене суток
+        NotificationCenter.default.publisher(for: .NSCalendarDayChanged)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in self?.recomputeStats() }
+            .store(in: &cancellables)
+
+        // Обновляем расчеты при активации (если спали в полночь)
+        NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in self?.recomputeStats() }
+            .store(in: &cancellables)
+
+        // Обновляем расчеты при пробуждении системы (на всякий случай)
+        NotificationCenter.default.publisher(for: NSWorkspace.didWakeNotification)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in self?.recomputeStats() }
             .store(in: &cancellables)
     }
 
@@ -184,7 +203,6 @@ final class TogglViewModel: ObservableObject {
     }
 
     /// Вычисляет статистику по времени на основе загруженных entries.
-    /// Вызывается один раз после загрузки данных.
     private func recomputeStats() {
         // 1. Подготовка: настраиваем календарь один раз
         var calendar = Calendar.current
