@@ -5,6 +5,7 @@ struct SettingsView: View {
     @AppStorage("apiKey") private var apiKey: String = ""
     @AppStorage("targetDailyHours") private var targetDailyHours: Int = 0
     @AppStorage("targetWeeklyHours") private var targetWeeklyHours: Int = 0
+    @AppStorage("pomodoroSize") private var pomodoroSize: Int = 0
 
     var body: some View {
         Form {
@@ -27,6 +28,28 @@ struct SettingsView: View {
                     Link(
                         " настройках профиля Toggl Track",
                         destination: URL(string: "https://track.toggl.com/profile")!)
+                }
+                .font(.footnote)
+                // Растягиваем на всю ширину окна и центрируем контент
+                .frame(maxWidth: .infinity, alignment: .center)
+            }
+            // MARK: Раздел "Метод помидора"
+            Section {
+                TextField(
+                    "Размер помидора, мин.",
+                    value: $pomodoroSize,
+                    format: .number,
+                    prompt: Text("укажите целое число"),
+                )
+            } header: {
+                Text("Метод помидора")
+            } footer: {
+                HStack(spacing: 0) {
+                    Link(
+                        "Метод помидора ",
+                        destination: URL(string: "https://ru.wikipedia.org/wiki/Метод_помидора")!)
+                    Text(" – 25 мин. сосредоточенной работы, 5 мин. перерыв.")
+                        .foregroundStyle(.secondary)
                 }
                 .font(.footnote)
                 // Растягиваем на всю ширину окна и центрируем контент
