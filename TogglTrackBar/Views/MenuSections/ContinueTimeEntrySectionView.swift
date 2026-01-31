@@ -28,13 +28,13 @@ struct ContinueTimeEntrySectionView: View {
 
     private func entryLabel(for entry: TogglTimeEntry) -> String {
         let description = entry.description ?? "Нет описания"
-        
+
         guard let id = entry.projectId,
             let name = togglVM.projects[id]?.name
         else {
             return description
         }
-        
+
         return "\(description) (\(name))"
     }
 

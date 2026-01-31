@@ -11,19 +11,19 @@ struct MenuBarMenuView: View {
         }
 
         TotalsSectionView()
-        
+
         if togglVM.currentEntry != nil {
             CurrentTimeEntrySectionView()
         } else {
             ContinueTimeEntrySectionView()
         }
-        
+
         Divider()
-        
+
         UserSectionView()
-        
+
         Divider()
-        
+
         UtilitySectionView()
     }
 }

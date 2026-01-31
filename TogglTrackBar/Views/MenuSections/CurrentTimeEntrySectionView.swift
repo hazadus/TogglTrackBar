@@ -9,7 +9,7 @@ struct CurrentTimeEntrySectionView: View {
         Text(
             "Сейчас: " + (togglVM.currentEntry?.description ?? "Без описания")
         ).foregroundStyle(.secondary)
-        
+
         Button("Остановить") {
             Task {
                 await stopCurrentEntry()
