@@ -34,9 +34,13 @@ private struct TodayTotalRow: View {
             targetDailyHours > 0
             ? Int(Double(total) / Double(targetDailyHours * 3600) * 100)
             : 0
+        let percentageFormatted =
+            targetDailyHours > 0
+            ? "(\(percentage)% от цели)"
+            : ""
 
         Text(
-            "Всего сегодня: \(Formatters.secondsAsTime(from: Double(total))) (\(percentage)% от цели)"
+            "Всего сегодня: \(Formatters.secondsAsTime(from: Double(total))) \(percentageFormatted)"
         )
         .foregroundStyle(.secondary)
     }
@@ -53,9 +57,13 @@ private struct WeekTotalRow: View {
             targetWeeklyHours > 0
             ? Int(Double(total) / Double(targetWeeklyHours * 3600) * 100)
             : 0
+        let percentageFormatted =
+            targetWeeklyHours > 0
+            ? "(\(percentage)% от цели)"
+            : ""
 
         Text(
-            "Всего на неделе: \(Formatters.secondsAsTime(from: Double(total))) (\(percentage)% от цели)"
+            "Всего на неделе: \(Formatters.secondsAsTime(from: Double(total))) \(percentageFormatted)"
         )
         .foregroundStyle(.secondary)
     }

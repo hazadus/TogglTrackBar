@@ -3,8 +3,8 @@ import SwiftUI
 /// Окно настроек приложения.
 struct SettingsView: View {
     @AppStorage("apiKey") private var apiKey: String = ""
-    @AppStorage("targetDailyHours") private var targetDailyHours: Int = 3
-    @AppStorage("targetWeeklyHours") private var targetWeeklyHours: Int = 21
+    @AppStorage("targetDailyHours") private var targetDailyHours: Int = 0
+    @AppStorage("targetWeeklyHours") private var targetWeeklyHours: Int = 0
 
     var body: some View {
         Form {
@@ -51,7 +51,7 @@ struct SettingsView: View {
             } footer: {
                 VStack {
                     Text(
-                        "Укажите количество часов, которые вы планируете работать в день и в неделю, для расчета процента выполнения."
+                        "Укажите количество часов, которые вы планируете работать в день и в неделю, для расчета процента выполнения. Для отключения процентов, установите нули."
                     )
                     .font(.footnote)
                     .foregroundStyle(.secondary)
