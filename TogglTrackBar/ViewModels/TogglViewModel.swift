@@ -24,6 +24,8 @@ final class TogglViewModel: ObservableObject {
     @Published private(set) var isLoading = false
     @Published private(set) var hasLoaded = false
 
+    private let settings: AppSettings
+    private let pomodoroService: PomodoroService
     private var togglAPI: TogglAPI
     private var menuTimer: TimeEntryTimer
 
@@ -44,13 +46,22 @@ final class TogglViewModel: ObservableObject {
     init(
         togglAPI: TogglAPI,
         menuTimer: TimeEntryTimer,
+        settings: AppSettings,
+        pomodoroService: PomodoroService,
         targetDailyHours: Int = 0,
         targetWeeklyHours: Int = 0,
     ) {
+        self.settings = settings
+        self.pomodoroService = pomodoroService
         self.togglAPI = togglAPI
         self.menuTimer = menuTimer
         self.targetDailyHours = targetDailyHours
         self.targetWeeklyHours = targetWeeklyHours
+
+        pomodoroService.bind(
+            currentEntry: $currentEntry.eraseToAnyPublisher(),
+            pomodoroMinutes: settings.pomodoroSizePublisher,
+        )
 
         togglAPI.rateLimitSubject
             // переключаемся на главный поток (обязательно для UI)
@@ -75,7 +86,7 @@ final class TogglViewModel: ObservableObject {
             .store(in: &cancellables)
 
         // Обновляем расчеты при пробуждении системы (на всякий случай)
-        NotificationCenter.default.publisher(for: NSWorkspace.didWakeNotification)
+        NSWorkspace.shared.notificationCenter.publisher(for: NSWorkspace.didWakeNotification)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in self?.recomputeStats() }
             .store(in: &cancellables)

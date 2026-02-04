@@ -9,13 +9,20 @@ struct TogglTrackBarApp: App {
     @StateObject private var togglVM: TogglViewModel
     /// Таймер для расчета продолжительности текущей записи времени
     @StateObject private var timeEntryTimer: TimeEntryTimer
+    /// Настройки приложения, синхронизируемые с AppStorage
+    @StateObject private var settings: AppSettings
 
     init() {
         NotificationService.shared.requestAuthorization()
 
+        let appSettings = AppSettings()
+        _settings = StateObject(wrappedValue: appSettings)
+
+        let targetDailyHours = appSettings.targetDailyHours
+        let targetWeeklyHours = appSettings.targetWeeklyHours
+
+        // TODO: apiKey -> AppSettings
         // Читаем из UserDefaults (туда же пишет @AppStorage в виде настроек приложения)
-        let targetDailyHours = UserDefaults.standard.integer(forKey: "targetDailyHours")
-        let targetWeeklyHours = UserDefaults.standard.integer(forKey: "targetWeeklyHours")
         let apiKey = UserDefaults.standard.string(forKey: "apiKey") ?? ""
 
         let api = TogglAPI(apiKey: apiKey)
@@ -26,9 +33,13 @@ struct TogglTrackBarApp: App {
         let timer = TimeEntryTimer()
         _timeEntryTimer = StateObject(wrappedValue: timer)
 
+        let pomodoroService = PomodoroService(notificationService: .shared)
+
         let viewModel = TogglViewModel(
             togglAPI: api,
             menuTimer: timer,
+            settings: appSettings,
+            pomodoroService: pomodoroService,
             targetDailyHours: targetDailyHours,
             targetWeeklyHours: targetWeeklyHours,
         )
