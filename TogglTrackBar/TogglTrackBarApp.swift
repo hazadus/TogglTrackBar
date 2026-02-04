@@ -13,6 +13,7 @@ struct TogglTrackBarApp: App {
     @StateObject private var settings: AppSettings
 
     init() {
+        NotificationService.shared.configure()
         NotificationService.shared.requestAuthorization()
 
         let appSettings = AppSettings()
