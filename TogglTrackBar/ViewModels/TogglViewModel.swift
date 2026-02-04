@@ -90,6 +90,20 @@ final class TogglViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in self?.recomputeStats() }
             .store(in: &cancellables)
+
+        // Обрабатываем нажатие кнопки "Остановить запись" в уведомлении помидора
+        NotificationService.shared.actions
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] action in
+                guard let self else { return }
+                switch action {
+                case .stopCurrentTimeEntry(let entryId):
+                    // Убеждаемся, что в уведомлении указана текущая запись
+                    guard self.currentEntry?.id == entryId else { return }
+                    Task { await self.stopCurrentEntry() }
+                }
+            }
+            .store(in: &cancellables)
     }
 
     // MARK: Entry management

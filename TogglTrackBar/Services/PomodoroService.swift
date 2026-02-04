@@ -123,9 +123,11 @@ final class PomodoroService {
 
         notifiedEntryKey = key
 
-        notificationService.showSuccess(
+        notificationService.show(
             title: "Таймер помидора 🍅",
-            message: "\(pomodoroMinutes) мин. прошло – пора сделать перерыв!",
+            body: "\(pomodoroMinutes) мин. прошло – пора сделать перерыв!",
+            categoryIdentifier: NotificationService.categoryPomodoro,
+            userInfo: [NotificationService.keyEntryId: entryId],
         )
     }
 }
