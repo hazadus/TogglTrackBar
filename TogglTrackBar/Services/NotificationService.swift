@@ -111,6 +111,17 @@ final class NotificationService: NSObject {
 // Определяем делегата как расширение класса, чтобы не "раздувать" его и
 // логически сгруппировать код
 extension NotificationService: UNUserNotificationCenterDelegate {
+    /// Вызывается перед показом уведомления, когда приложение активно.
+    /// Без этого метода уведомления могут не отображаться при активном приложении.
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler:
+            @escaping (UNNotificationPresentationOptions) -> Void,
+    ) {
+        completionHandler([.banner, .sound])
+    }
+
     /// Вызывается при нажатии на кнопку действия в уведомлении.
     ///
     /// Используем именно эту сигнатуру метода из протокола, так как она вызывается после
