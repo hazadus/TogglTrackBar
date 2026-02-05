@@ -1,6 +1,6 @@
 import Combine
-import UserNotifications
 import os
+import UserNotifications
 
 /// Сервис для вывода системных уведомлений.
 final class NotificationService: NSObject {

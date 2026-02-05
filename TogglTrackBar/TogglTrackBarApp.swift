@@ -34,6 +34,7 @@ struct TogglTrackBarApp: App {
             menuTimer: timer,
             settings: appSettings,
             pomodoroService: pomodoroService,
+            notificationService: .shared,
             targetDailyHours: appSettings.targetDailyHours,
             targetWeeklyHours: appSettings.targetWeeklyHours,
         )

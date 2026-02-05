@@ -26,8 +26,9 @@ final class TogglViewModel: ObservableObject {
 
     private let settings: AppSettings
     private let pomodoroService: PomodoroService
-    private var togglAPI: TogglAPI
-    private var menuTimer: TimeEntryTimer
+    private let notificationService: NotificationService
+    private let togglAPI: TogglAPI
+    private let menuTimer: TimeEntryTimer
 
     /// AnyCancellable — обёртка для подписки Combine. Когда объект уничтожается, подписка автоматически отменяется
     /// Set<AnyCancellable> — коллекция для хранения всех подписок. Стандартный паттерн в Combine
@@ -48,13 +49,16 @@ final class TogglViewModel: ObservableObject {
         menuTimer: TimeEntryTimer,
         settings: AppSettings,
         pomodoroService: PomodoroService,
+        notificationService: NotificationService,
         targetDailyHours: Int = 0,
         targetWeeklyHours: Int = 0,
     ) {
         self.settings = settings
         self.pomodoroService = pomodoroService
+        self.notificationService = notificationService
         self.togglAPI = togglAPI
         self.menuTimer = menuTimer
+        // TODO: брать эти настройки из settings динамически
         self.targetDailyHours = targetDailyHours
         self.targetWeeklyHours = targetWeeklyHours
 
@@ -92,7 +96,7 @@ final class TogglViewModel: ObservableObject {
             .store(in: &cancellables)
 
         // Обрабатываем нажатие кнопки "Остановить запись" в уведомлении помидора
-        NotificationService.shared.actions
+        notificationService.actions
             .receive(on: DispatchQueue.main)
             .sink { [weak self] action in
                 guard let self else { return }
@@ -270,7 +274,7 @@ final class TogglViewModel: ObservableObject {
     // MARK: Error handling
     /// Выводит системное уведомление с информацией об ошибке, и логирует её.
     private func handleError(_ error: Error, context: String) {
-        NotificationService.shared.showError(message: "\(context): \(error.localizedDescription)")
+        notificationService.showError(message: "\(context): \(error.localizedDescription)")
         Log.viewModel.error("❌ \(context, privacy: .public): \(error, privacy: .public)")
 
         // Для наших кастомных ошибок API выводим подробности при наличии
