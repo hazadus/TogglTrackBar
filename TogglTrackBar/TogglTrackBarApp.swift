@@ -35,8 +35,6 @@ struct TogglTrackBarApp: App {
             settings: appSettings,
             pomodoroService: pomodoroService,
             notificationService: .shared,
-            targetDailyHours: appSettings.targetDailyHours,
-            targetWeeklyHours: appSettings.targetWeeklyHours,
         )
         _togglVM = StateObject(wrappedValue: viewModel)
     }

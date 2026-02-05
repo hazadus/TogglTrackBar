@@ -50,21 +50,16 @@ final class TogglViewModel: ObservableObject {
         settings: AppSettings,
         pomodoroService: PomodoroService,
         notificationService: NotificationService,
-        targetDailyHours: Int = 0,
-        targetWeeklyHours: Int = 0,
     ) {
         self.settings = settings
         self.pomodoroService = pomodoroService
         self.notificationService = notificationService
         self.togglAPI = togglAPI
         self.menuTimer = menuTimer
-        // TODO: брать эти настройки из settings динамически
-        self.targetDailyHours = targetDailyHours
-        self.targetWeeklyHours = targetWeeklyHours
 
         pomodoroService.bind(
             currentEntry: $currentEntry.eraseToAnyPublisher(),
-            pomodoroMinutes: settings.pomodoroSizePublisher,
+            pomodoroMinutes: settings.publisher(\.pomodoroSize),
         )
 
         togglAPI.rateLimitSubject
@@ -75,6 +70,22 @@ final class TogglViewModel: ObservableObject {
                 self?.rateLimit = newValue
             }
             // сохраняем подписку в Set, чтобы она жила пока жив ViewModel
+            .store(in: &cancellables)
+
+        // Подписываемся на изменения целевых часов.
+        // Благодаря prepend() в паблишере, переменные получат начальные значения
+        settings.publisher(\.targetDailyHours)
+            .sink { [weak self] value in
+                self?.targetDailyHours = value
+                self?.recomputeStats()
+            }
+            .store(in: &cancellables)
+
+        settings.publisher(\.targetWeeklyHours)
+            .sink { [weak self] value in
+                self?.targetWeeklyHours = value
+                self?.recomputeStats()
+            }
             .store(in: &cancellables)
 
         // Обновляем расчеты при смене суток
