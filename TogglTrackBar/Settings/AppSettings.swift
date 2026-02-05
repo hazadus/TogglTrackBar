@@ -4,6 +4,7 @@ import SwiftUI
 /// Обёртка для наблюдения за изменениями настроек приложения.
 @MainActor
 final class AppSettings: ObservableObject {
+    @AppStorage("apiKey") var apiKey: String = ""
     @AppStorage("targetDailyHours") var targetDailyHours: Int = 0
     @AppStorage("targetWeeklyHours") var targetWeeklyHours: Int = 0
     @AppStorage("pomodoroSize") var pomodoroSize: Int = 0

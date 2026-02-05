@@ -2,10 +2,7 @@ import SwiftUI
 
 /// Окно настроек приложения.
 struct SettingsView: View {
-    @AppStorage("apiKey") private var apiKey: String = ""
-    @AppStorage("targetDailyHours") private var targetDailyHours: Int = 0
-    @AppStorage("targetWeeklyHours") private var targetWeeklyHours: Int = 0
-    @AppStorage("pomodoroSize") private var pomodoroSize: Int = 0
+    @EnvironmentObject private var settings: AppSettings
 
     var body: some View {
         Form {
@@ -14,7 +11,7 @@ struct SettingsView: View {
                 TextField(
                     // $ это binding для двусторонней связи с переменной
                     // Позволяет не только читать значение, но и записывать
-                    text: $apiKey,
+                    text: $settings.apiKey,
                     prompt: Text("your-secret-api-key"),
                 ) {
                     Text("API Key")
@@ -37,7 +34,7 @@ struct SettingsView: View {
             Section {
                 TextField(
                     "Размер помидора, мин.",
-                    value: $pomodoroSize,
+                    value: $settings.pomodoroSize,
                     format: .number,
                     prompt: Text("укажите целое число"),
                 )
@@ -59,13 +56,13 @@ struct SettingsView: View {
             Section {
                 TextField(
                     "Работа в день, часы",
-                    value: $targetDailyHours,
+                    value: $settings.targetDailyHours,
                     format: .number,
                     prompt: Text("укажите целое число"),
                 )
                 TextField(
                     "Работа в неделю, часы",
-                    value: $targetWeeklyHours,
+                    value: $settings.targetWeeklyHours,
                     format: .number,
                     prompt: Text("укажите целое число"),
                 )
@@ -83,8 +80,6 @@ struct SettingsView: View {
                     Spacer()
                     Divider()
                     Spacer()
-
-                    Text("Для применения настроек, закройте это окно и перезапустите приложение.")
                 }
                 .multilineTextAlignment(.center)
             }
@@ -98,4 +93,5 @@ struct SettingsView: View {
 
 #Preview {
     SettingsView()
+        .environmentObject(AppSettings())
 }
