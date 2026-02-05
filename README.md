@@ -46,6 +46,7 @@
 В доках собраны полезные знания, накопленные при разработке проекта.
 
 - [Автоматизация сборки](./docs/build-automation.md)
+- [Reactive @AppStorage Pattern](./docs/reactive-appstorage-pattern.md)
 
 ## Инструменты разработки
 

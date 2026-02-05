@@ -10,6 +10,7 @@
 		FF91FD702F2C7156002AA737 /* CLAUDE.md in Resources */ = {isa = PBXBuildFile; fileRef = FF91FD6F2F2C7156002AA737 /* CLAUDE.md */; };
 		FF91FD972F2C747D002AA737 /* build-automation.md in Resources */ = {isa = PBXBuildFile; fileRef = FF91FD952F2C747D002AA737 /* build-automation.md */; };
 		FF91FDA02F2C8173002AA737 /* pre-commit in Resources */ = {isa = PBXBuildFile; fileRef = FF91FD9E2F2C8173002AA737 /* pre-commit */; };
+		FF96C6DB2F35048100F552C7 /* reactive-appstorage-pattern.md in Resources */ = {isa = PBXBuildFile; fileRef = FF96C6DA2F35048100F552C7 /* reactive-appstorage-pattern.md */; };
 		FF9CE3C92F26706E00F186CD /* Justfile in Resources */ = {isa = PBXBuildFile; fileRef = FF9CE3C82F26706E00F186CD /* Justfile */; };
 		FF9CE3CB2F26707D00F186CD /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = FF9CE3CA2F26707D00F186CD /* README.md */; };
 /* End PBXBuildFile section */
@@ -18,6 +19,7 @@
 		FF91FD6F2F2C7156002AA737 /* CLAUDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CLAUDE.md; sourceTree = "<group>"; };
 		FF91FD952F2C747D002AA737 /* build-automation.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "build-automation.md"; sourceTree = "<group>"; };
 		FF91FD9E2F2C8173002AA737 /* pre-commit */ = {isa = PBXFileReference; lastKnownFileType = text; path = "pre-commit"; sourceTree = "<group>"; };
+		FF96C6DA2F35048100F552C7 /* reactive-appstorage-pattern.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "reactive-appstorage-pattern.md"; sourceTree = "<group>"; };
 		FF9CE3BA2F266EA600F186CD /* TogglTrackBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TogglTrackBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF9CE3C82F26706E00F186CD /* Justfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Justfile; sourceTree = "<group>"; };
 		FF9CE3CA2F26707D00F186CD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -46,6 +48,7 @@
 			isa = PBXGroup;
 			children = (
 				FF91FD952F2C747D002AA737 /* build-automation.md */,
+				FF96C6DA2F35048100F552C7 /* reactive-appstorage-pattern.md */,
 			);
 			path = docs;
 			sourceTree = "<group>";
@@ -147,6 +150,7 @@
 				FF9CE3CB2F26707D00F186CD /* README.md in Resources */,
 				FF91FD702F2C7156002AA737 /* CLAUDE.md in Resources */,
 				FF91FDA02F2C8173002AA737 /* pre-commit in Resources */,
+				FF96C6DB2F35048100F552C7 /* reactive-appstorage-pattern.md in Resources */,
 				FF9CE3C92F26706E00F186CD /* Justfile in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -289,7 +293,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				ENABLE_PREVIEWS = YES;
@@ -323,7 +327,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				ENABLE_PREVIEWS = YES;
