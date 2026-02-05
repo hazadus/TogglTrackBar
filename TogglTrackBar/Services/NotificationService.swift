@@ -126,9 +126,28 @@ extension NotificationService: UNUserNotificationCenterDelegate {
 
         // Получаем кастомные данные, связанные с уведомлением
         let userInfo = response.notification.request.content.userInfo
-        guard let entryId = userInfo[Self.keyEntryId] as? Int else { return }
+        guard let entryId = entryIdToInt(userInfo: userInfo) else { return }
 
-        // Публикуем событие
-        actions.send(.stopCurrentTimeEntry(entryId: entryId))
+        // Публикуем событие на главном потоке (для исключения проблем с обновлением UI)
+        DispatchQueue.main.async { [self] in
+            self.actions.send(.stopCurrentTimeEntry(entryId: entryId))
+        }
+    }
+
+    /// Пробует привести `entryId`  к `Int` разными способами, для надежности.
+    ///
+    /// Значение `entryId` может прийти как `Int` или `NSNumber`, нужно обработать оба случая.
+    private func entryIdToInt(userInfo: [AnyHashable: Any]) -> Int? {
+        // Получаем "сырое" значение любого типа
+        guard let raw = userInfo[Self.keyEntryId] else { return nil }
+
+        var entryId: Int?
+        if let value = raw as? Int {
+            entryId = value
+        } else if let value = raw as? NSNumber {
+            entryId = value.intValue
+        }
+
+        return entryId
     }
 }
