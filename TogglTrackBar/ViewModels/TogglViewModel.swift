@@ -24,8 +24,11 @@ final class TogglViewModel: ObservableObject {
     @Published private(set) var isLoading = false
     @Published private(set) var hasLoaded = false
 
-    private var togglAPI: TogglAPI
-    private var menuTimer: TimeEntryTimer
+    private let settings: AppSettings
+    private let pomodoroService: PomodoroService
+    private let notificationService: NotificationService
+    private let togglAPI: TogglAPI
+    private let menuTimer: TimeEntryTimer
 
     /// AnyCancellable — обёртка для подписки Combine. Когда объект уничтожается, подписка автоматически отменяется
     /// Set<AnyCancellable> — коллекция для хранения всех подписок. Стандартный паттерн в Combine
@@ -44,13 +47,20 @@ final class TogglViewModel: ObservableObject {
     init(
         togglAPI: TogglAPI,
         menuTimer: TimeEntryTimer,
-        targetDailyHours: Int = 0,
-        targetWeeklyHours: Int = 0,
+        settings: AppSettings,
+        pomodoroService: PomodoroService,
+        notificationService: NotificationService,
     ) {
+        self.settings = settings
+        self.pomodoroService = pomodoroService
+        self.notificationService = notificationService
         self.togglAPI = togglAPI
         self.menuTimer = menuTimer
-        self.targetDailyHours = targetDailyHours
-        self.targetWeeklyHours = targetWeeklyHours
+
+        pomodoroService.bind(
+            currentEntry: $currentEntry.eraseToAnyPublisher(),
+            pomodoroMinutes: settings.publisher(\.pomodoroSize),
+        )
 
         togglAPI.rateLimitSubject
             // переключаемся на главный поток (обязательно для UI)
@@ -60,6 +70,22 @@ final class TogglViewModel: ObservableObject {
                 self?.rateLimit = newValue
             }
             // сохраняем подписку в Set, чтобы она жила пока жив ViewModel
+            .store(in: &cancellables)
+
+        // Подписываемся на изменения целевых часов.
+        // Благодаря prepend() в паблишере, переменные получат начальные значения
+        settings.publisher(\.targetDailyHours)
+            .sink { [weak self] value in
+                self?.targetDailyHours = value
+                self?.recomputeStats()
+            }
+            .store(in: &cancellables)
+
+        settings.publisher(\.targetWeeklyHours)
+            .sink { [weak self] value in
+                self?.targetWeeklyHours = value
+                self?.recomputeStats()
+            }
             .store(in: &cancellables)
 
         // Обновляем расчеты при смене суток
@@ -75,9 +101,23 @@ final class TogglViewModel: ObservableObject {
             .store(in: &cancellables)
 
         // Обновляем расчеты при пробуждении системы (на всякий случай)
-        NotificationCenter.default.publisher(for: NSWorkspace.didWakeNotification)
+        NSWorkspace.shared.notificationCenter.publisher(for: NSWorkspace.didWakeNotification)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in self?.recomputeStats() }
+            .store(in: &cancellables)
+
+        // Обрабатываем нажатие кнопки "Остановить запись" в уведомлении помидора
+        notificationService.actions
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] action in
+                guard let self else { return }
+                switch action {
+                case .stopCurrentTimeEntry(let entryId):
+                    // Убеждаемся, что в уведомлении указана текущая запись
+                    guard self.currentEntry?.id == entryId else { return }
+                    Task { await self.stopCurrentEntry() }
+                }
+            }
             .store(in: &cancellables)
     }
 
@@ -245,7 +285,7 @@ final class TogglViewModel: ObservableObject {
     // MARK: Error handling
     /// Выводит системное уведомление с информацией об ошибке, и логирует её.
     private func handleError(_ error: Error, context: String) {
-        NotificationService.shared.showError(message: "\(context): \(error.localizedDescription)")
+        notificationService.showError(message: "\(context): \(error.localizedDescription)")
         Log.viewModel.error("❌ \(context, privacy: .public): \(error, privacy: .public)")
 
         // Для наших кастомных ошибок API выводим подробности при наличии

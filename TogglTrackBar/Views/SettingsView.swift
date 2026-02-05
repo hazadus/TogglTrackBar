@@ -2,9 +2,7 @@ import SwiftUI
 
 /// Окно настроек приложения.
 struct SettingsView: View {
-    @AppStorage("apiKey") private var apiKey: String = ""
-    @AppStorage("targetDailyHours") private var targetDailyHours: Int = 0
-    @AppStorage("targetWeeklyHours") private var targetWeeklyHours: Int = 0
+    @EnvironmentObject private var settings: AppSettings
 
     var body: some View {
         Form {
@@ -13,7 +11,7 @@ struct SettingsView: View {
                 TextField(
                     // $ это binding для двусторонней связи с переменной
                     // Позволяет не только читать значение, но и записывать
-                    text: $apiKey,
+                    text: $settings.apiKey,
                     prompt: Text("your-secret-api-key"),
                 ) {
                     Text("API Key")
@@ -21,12 +19,38 @@ struct SettingsView: View {
             } header: {
                 Text("TogglTrack API")
             } footer: {
-                HStack(spacing: 0) {
-                    Text("Ключ можно получить в")
+                VStack {
+                    HStack(spacing: 0) {
+                        Text("Ключ можно получить в")
+                            .foregroundStyle(.secondary)
+                        Link(
+                            " настройках профиля Toggl Track",
+                            destination: URL(string: "https://track.toggl.com/profile")!)
+                    }
+                    // Растягиваем на всю ширину окна и центрируем контент
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    Text("Перезапустите приложение после изменения ключа.")
                         .foregroundStyle(.secondary)
+                }
+                .font(.footnote)
+            }
+            // MARK: Раздел "Метод помидора"
+            Section {
+                TextField(
+                    "Размер помидора, мин.",
+                    value: $settings.pomodoroSize,
+                    format: .number,
+                    prompt: Text("укажите целое число"),
+                )
+            } header: {
+                Text("Метод помидора")
+            } footer: {
+                HStack(spacing: 0) {
                     Link(
-                        " настройках профиля Toggl Track",
-                        destination: URL(string: "https://track.toggl.com/profile")!)
+                        "Метод помидора ",
+                        destination: URL(string: "https://ru.wikipedia.org/wiki/Метод_помидора")!)
+                    Text(" – 25 мин. сосредоточенной работы, 5 мин. перерыв.")
+                        .foregroundStyle(.secondary)
                 }
                 .font(.footnote)
                 // Растягиваем на всю ширину окна и центрируем контент
@@ -36,13 +60,13 @@ struct SettingsView: View {
             Section {
                 TextField(
                     "Работа в день, часы",
-                    value: $targetDailyHours,
+                    value: $settings.targetDailyHours,
                     format: .number,
                     prompt: Text("укажите целое число"),
                 )
                 TextField(
                     "Работа в неделю, часы",
-                    value: $targetWeeklyHours,
+                    value: $settings.targetWeeklyHours,
                     format: .number,
                     prompt: Text("укажите целое число"),
                 )
@@ -56,12 +80,6 @@ struct SettingsView: View {
                     .font(.footnote)
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity)
-
-                    Spacer()
-                    Divider()
-                    Spacer()
-
-                    Text("Для применения настроек, закройте это окно и перезапустите приложение.")
                 }
                 .multilineTextAlignment(.center)
             }
@@ -75,4 +93,5 @@ struct SettingsView: View {
 
 #Preview {
     SettingsView()
+        .environmentObject(AppSettings())
 }

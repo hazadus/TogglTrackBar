@@ -9,28 +9,32 @@ struct TogglTrackBarApp: App {
     @StateObject private var togglVM: TogglViewModel
     /// Таймер для расчета продолжительности текущей записи времени
     @StateObject private var timeEntryTimer: TimeEntryTimer
+    /// Настройки приложения, синхронизируемые с AppStorage
+    @StateObject private var settings: AppSettings
 
     init() {
+        NotificationService.shared.configure()
         NotificationService.shared.requestAuthorization()
 
-        // Читаем из UserDefaults (туда же пишет @AppStorage в виде настроек приложения)
-        let targetDailyHours = UserDefaults.standard.integer(forKey: "targetDailyHours")
-        let targetWeeklyHours = UserDefaults.standard.integer(forKey: "targetWeeklyHours")
-        let apiKey = UserDefaults.standard.string(forKey: "apiKey") ?? ""
+        // @StateObject генерирует приватное свойство _settings типа StateObject<AppSettings>.
+        // Свойство settings — это computed property (get-only), поэтому присваивать ему значение
+        // нельзя. Инициализация происходит через _settings = StateObject(wrappedValue: ...).
+        let appSettings = AppSettings()
+        _settings = StateObject(wrappedValue: appSettings)
 
-        let api = TogglAPI(apiKey: apiKey)
+        let api = TogglAPI(apiKey: appSettings.apiKey)
 
-        // @StateObject генерирует приватное свойство _togglVM типа StateObject<TogglViewModel>.
-        // Свойство togglVM — это computed property (get-only), поэтому присваивать ему значение
-        // нельзя. Инициализация происходит через _togglVM = StateObject(wrappedValue: ...).
         let timer = TimeEntryTimer()
         _timeEntryTimer = StateObject(wrappedValue: timer)
+
+        let pomodoroService = PomodoroService(notificationService: .shared)
 
         let viewModel = TogglViewModel(
             togglAPI: api,
             menuTimer: timer,
-            targetDailyHours: targetDailyHours,
-            targetWeeklyHours: targetWeeklyHours,
+            settings: appSettings,
+            pomodoroService: pomodoroService,
+            notificationService: .shared,
         )
         _togglVM = StateObject(wrappedValue: viewModel)
     }
@@ -54,6 +58,7 @@ struct TogglTrackBarApp: App {
 
         Settings {
             SettingsView()
+                .environmentObject(settings)
         }
 
         Window("О программе", id: "about") {
