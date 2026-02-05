@@ -1,6 +1,6 @@
 import Combine
-import os
 import UserNotifications
+import os
 
 /// Сервис для вывода системных уведомлений.
 final class NotificationService: NSObject {
@@ -28,8 +28,15 @@ final class NotificationService: NSObject {
         case stopCurrentTimeEntry(entryId: Int)
     }
 
-    /// Паблишер для публикации событий для подписчиков и подписки на них извне.
-    let actions = PassthroughSubject<Action, Never>()
+    /// Паблишер для публикации событий для подписчиков.
+    ///
+    /// Делаем паблишер приватным, чтобы только сервис уведомлений мог публиковать события.
+    private let actionsSubject = PassthroughSubject<Action, Never>()
+
+    /// Паблишер для подписки на события извне. Не может делать `send()`.
+    var actions: AnyPublisher<Action, Never> {
+        actionsSubject.eraseToAnyPublisher()
+    }
 
     // Приватный init запрещает создание других экземпляров
     private override init() { super.init() }
@@ -141,7 +148,7 @@ extension NotificationService: UNUserNotificationCenterDelegate {
 
         // Публикуем событие на главном потоке (для исключения проблем с обновлением UI)
         DispatchQueue.main.async { [self] in
-            self.actions.send(.stopCurrentTimeEntry(entryId: entryId))
+            self.actionsSubject.send(.stopCurrentTimeEntry(entryId: entryId))
         }
     }
 
