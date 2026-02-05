@@ -19,16 +19,20 @@ struct SettingsView: View {
             } header: {
                 Text("TogglTrack API")
             } footer: {
-                HStack(spacing: 0) {
-                    Text("Ключ можно получить в")
+                VStack {
+                    HStack(spacing: 0) {
+                        Text("Ключ можно получить в")
+                            .foregroundStyle(.secondary)
+                        Link(
+                            " настройках профиля Toggl Track",
+                            destination: URL(string: "https://track.toggl.com/profile")!)
+                    }
+                    // Растягиваем на всю ширину окна и центрируем контент
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    Text("Перезапустите приложение после изменения ключа.")
                         .foregroundStyle(.secondary)
-                    Link(
-                        " настройках профиля Toggl Track",
-                        destination: URL(string: "https://track.toggl.com/profile")!)
                 }
                 .font(.footnote)
-                // Растягиваем на всю ширину окна и центрируем контент
-                .frame(maxWidth: .infinity, alignment: .center)
             }
             // MARK: Раздел "Метод помидора"
             Section {
@@ -76,10 +80,6 @@ struct SettingsView: View {
                     .font(.footnote)
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity)
-
-                    Spacer()
-                    Divider()
-                    Spacer()
                 }
                 .multilineTextAlignment(.center)
             }
