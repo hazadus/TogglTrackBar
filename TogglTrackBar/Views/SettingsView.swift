@@ -38,7 +38,7 @@ struct SettingsView: View {
             Section {
                 TextField(
                     "Размер помидора, мин.",
-                    value: $settings.pomodoroSize,
+                    value: $settings.pomodoroSize.clamped(min: 0),
                     format: .number,
                     prompt: Text("укажите целое число"),
                 )
@@ -60,13 +60,13 @@ struct SettingsView: View {
             Section {
                 TextField(
                     "Работа в день, часы",
-                    value: $settings.targetDailyHours,
+                    value: $settings.targetDailyHours.clamped(min: 0),
                     format: .number,
                     prompt: Text("укажите целое число"),
                 )
                 TextField(
                     "Работа в неделю, часы",
-                    value: $settings.targetWeeklyHours,
+                    value: $settings.targetWeeklyHours.clamped(min: 0),
                     format: .number,
                     prompt: Text("укажите целое число"),
                 )
