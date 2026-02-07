@@ -4,11 +4,14 @@ import SwiftUI
 struct UserSectionView: View {
     @EnvironmentObject var togglVM: TogglViewModel
 
+    @Environment(\.openURL) private var openURL
+
     var body: some View {
         // MARK: О пользователе
         if let user = togglVM.user {
-            Text(user.email)
-                .foregroundStyle(.secondary)
+            Button(user.email) {
+                openURL(TogglURLs.profile)
+            }
         }
 
         // MARK: Квоты API

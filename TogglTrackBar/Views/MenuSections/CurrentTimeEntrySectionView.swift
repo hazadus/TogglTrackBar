@@ -4,11 +4,12 @@ import SwiftUI
 struct CurrentTimeEntrySectionView: View {
     @EnvironmentObject var togglVM: TogglViewModel
 
+    @Environment(\.openURL) private var openURL
+
     var body: some View {
-        Text(
-            currentEntryLabel()
-        )
-        .foregroundStyle(.secondary)
+        Button(currentEntryLabel()) {
+            openURL(TogglURLs.timer)
+        }
 
         Button("Остановить") {
             Task {

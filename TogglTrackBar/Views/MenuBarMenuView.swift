@@ -12,6 +12,8 @@ struct MenuBarMenuView: View {
 
         TotalsSectionView()
 
+        Divider()
+
         if togglVM.currentEntry != nil {
             CurrentTimeEntrySectionView()
         } else {

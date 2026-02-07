@@ -28,6 +28,8 @@ private struct TodayTotalRow: View {
     let elapsedSeconds: Int
     let targetDailyHours: Int
 
+    @Environment(\.openURL) private var openURL
+
     var body: some View {
         let total = baseSeconds + elapsedSeconds
         let percentage =
@@ -39,10 +41,11 @@ private struct TodayTotalRow: View {
             ? "(\(percentage)% от цели)"
             : ""
 
-        Text(
+        Button(
             "Всего сегодня: \(Formatters.secondsAsTime(from: Double(total))) \(percentageFormatted)"
-        )
-        .foregroundStyle(.secondary)
+        ) {
+            openURL(TogglURLs.timer)
+        }
     }
 }
 
@@ -50,6 +53,8 @@ private struct WeekTotalRow: View {
     let baseSeconds: Int
     let elapsedSeconds: Int
     let targetWeeklyHours: Int
+
+    @Environment(\.openURL) private var openURL
 
     var body: some View {
         let total = baseSeconds + elapsedSeconds
@@ -62,9 +67,10 @@ private struct WeekTotalRow: View {
             ? "(\(percentage)% от цели)"
             : ""
 
-        Text(
+        Button(
             "Всего на неделе: \(Formatters.secondsAsTime(from: Double(total))) \(percentageFormatted)"
-        )
-        .foregroundStyle(.secondary)
+        ) {
+            openURL(TogglURLs.overview)
+        }
     }
 }
