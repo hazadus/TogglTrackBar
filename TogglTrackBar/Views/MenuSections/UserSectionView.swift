@@ -26,5 +26,14 @@ struct UserSectionView: View {
                     .foregroundStyle(.secondary)
             }
         }
+
+        Button(togglVM.isLoading ? "Загрузка данных..." : "Обновить данные") {
+            Task { await refreshData() }
+        }
+        .disabled(togglVM.isLoading)
+    }
+
+    private func refreshData() async {
+        await togglVM.reloadData()
     }
 }

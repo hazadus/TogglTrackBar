@@ -180,11 +180,18 @@ final class TogglViewModel: ObservableObject {
         // Не загружаем данные в режиме превью Xcode, чтобы не расходовать квоту TogglTrack API
         guard !ProcessInfo.isPreview else { return }
         guard !hasLoaded else { return }
+        guard !isLoading else { return }
 
+        await reloadData()
+        hasLoaded = true
+    }
+
+    /// Загружает необходимые данные из TogglTrackAPI.
+    func reloadData() async {
+        guard !isLoading else { return }
         isLoading = true
         defer {
             isLoading = false
-            hasLoaded = true
         }
 
         await loadUser()
