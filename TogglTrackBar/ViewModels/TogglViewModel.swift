@@ -34,11 +34,12 @@ final class TogglViewModel: ObservableObject {
     /// Set<AnyCancellable> — коллекция для хранения всех подписок. Стандартный паттерн в Combine
     private var cancellables = Set<AnyCancellable>()
 
-    /// Словарь соответствий id проекта -> данные проекта
-    private(set) var projects: [Int: TogglProject] = [:]
     /// Целевые значения по времени работы пользователя в день и в неделю
     private(set) var targetDailyHours = 0
     private(set) var targetWeeklyHours = 0
+
+    /// Словарь соответствий id проекта -> данные проекта
+    private var projects: [Int: TogglProject] = [:]
 
     /// Количество дней, за которые будут загружаться записи времени из TogglTrack API при старте приложения
     private static let daysToLoad = 7
@@ -195,13 +196,8 @@ final class TogglViewModel: ObservableObject {
     /// id проекта -> данные проекта.
     private func loadUser() async {
         do {
-            self.user = try await togglAPI.getMe()
-
-            // Добавляем все проекты пользователя в словарь для поиска по id
-            guard let projects = self.user?.projects else { return }
-            for project in projects {
-                self.projects[project.id] = project
-            }
+            user = try await togglAPI.getMe()
+            indexProjects(user?.projects ?? [])
         } catch {
             handleError(error, context: "Ошибка при загрузке данных пользователя")
         }
@@ -280,6 +276,17 @@ final class TogglViewModel: ObservableObject {
 
         // 4. Присваиваем результат один раз
         stats = TimeStats(todaySeconds: todaySeconds, weekSeconds: weekSeconds)
+    }
+
+    // MARK: Project management
+    /// Добавляет все проекты пользователя в словарь для поиска по `id`.
+    private func indexProjects(_ projects: [TogglProject]) {
+        self.projects = Dictionary(uniqueKeysWithValues: projects.map { ($0.id, $0) })
+    }
+
+    /// Возвращает название проекта по его `id`.
+    func projectName(forId id: Int) -> String? {
+        projects[id]?.name
     }
 
     // MARK: Error handling

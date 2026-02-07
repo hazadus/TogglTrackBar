@@ -30,7 +30,7 @@ struct ContinueTimeEntrySectionView: View {
         let description = entry.description ?? "Нет описания"
 
         guard let id = entry.projectId,
-            let name = togglVM.projects[id]?.name
+            let name = togglVM.projectName(forId: id)
         else {
             return description
         }

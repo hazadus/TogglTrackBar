@@ -5,10 +5,10 @@ struct CurrentTimeEntrySectionView: View {
     @EnvironmentObject var togglVM: TogglViewModel
 
     var body: some View {
-        // TODO: добавить название проекта в скобках
         Text(
-            "Сейчас: " + (togglVM.currentEntry?.description ?? "Без описания")
-        ).foregroundStyle(.secondary)
+            currentEntryLabel()
+        )
+        .foregroundStyle(.secondary)
 
         Button("Остановить") {
             Task {
@@ -19,5 +19,18 @@ struct CurrentTimeEntrySectionView: View {
 
     private func stopCurrentEntry() async {
         await togglVM.stopCurrentEntry()
+    }
+
+    private func currentEntryLabel() -> String {
+        guard let entry = togglVM.currentEntry else { return "Сейчас: Без описания" }
+
+        var label = "Сейчас: " + (entry.description ?? "Без описания")
+
+        if let id = entry.projectId,
+            let projectName = togglVM.projectName(forId: id) {
+            label += " (\(projectName))"
+        }
+
+        return label
     }
 }
