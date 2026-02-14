@@ -31,15 +31,19 @@ struct AboutView: View {
                     Text("О проекте")
                         .font(.caption)
                         .foregroundStyle(.secondary)
-                    Link(
-                        "GitHub",
-                        destination: URL(string: "https://github.com/hazadus/TogglTrackBar")!)
+                    HoverLink(
+                        title: "GitHub",
+                        url: URL(string: "https://github.com/hazadus/TogglTrackBar")!,
+                    )
                 }
                 GridRow {
                     Text("Автор")
                         .font(.caption)
                         .foregroundStyle(.secondary)
-                    Link("Александр Голдовский", destination: URL(string: "https://amgold.ru")!)
+                    HoverLink(
+                        title: "Александр Голдовский",
+                        url: URL(string: "https://amgold.ru")!,
+                    )
                 }
             }
 
