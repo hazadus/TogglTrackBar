@@ -39,3 +39,8 @@ install-hooks:
     # NB: путь ../../Scripts/pre-commit относительно .git/hooks/
     ln -s ../../Scripts/pre-commit .git/hooks/pre-commi
     chmod +x ./Scripts/pre-commit
+
+# Посчитать строки кода в проекте и сохранить в файл
+cloc:
+    @cloc --fullpath --exclude-list-file=.clocignore --md . > cloc.md
+
